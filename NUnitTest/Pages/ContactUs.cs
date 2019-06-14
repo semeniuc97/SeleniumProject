@@ -19,7 +19,7 @@ namespace NUnitTest.Pages
         private IWebElement yourSubject;
         [FindsBy(How = How.Name, Using = "your-message")]
         private IWebElement yourMessage;
-        [FindsBy(How = How.ClassName, Using = "wpcf7-form-control")]
+        [FindsBy(How = How.XPath, Using = "//input[@type='submit']")]
         private IWebElement submit;
         [FindsBy(How = How.ClassName, Using = "wpcf7-response-output")]
         private IWebElement SuccMessage;
