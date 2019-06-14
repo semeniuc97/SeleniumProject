@@ -5,29 +5,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Runtime.CompilerServices;
 
 namespace NUnitTest
 {
+    class Test
+    {
+
+    }
     class Program
     {
+        class PetOwner
+        {
+            public string Name { get; set; }
+            public List<string> Pets { get; set; }
+        }
+
         static void Main(string[] args)
         {
-            
-            using (IWebDriver browser = new ChromeDriver())
-            {
-                browser.Manage().Window.Maximize();
-                browser.Navigate().GoToUrl("https://app.pluralsight.com/id?redirectTo=%2Fid%2Fdashboard");
+            PetOwner[] petOwners =
+        { new PetOwner { Name="Higa",
+              Pets = new List<string>{ "Scruffy", "Sam" } },
+          new PetOwner { Name="Ashkenazi",
+              Pets = new List<string>{ "Walker", "Sugar" } },
+          new PetOwner { Name="Price",
+              Pets = new List<string>{ "Scratches", "Diesel" } },
+          new PetOwner { Name="Hines",
+              Pets = new List<string>{ "Dusty" } } };
 
-                IWebElement loginInput = browser.FindElement(By.Id("Username"));
-                loginInput.SendKeys("semeniuc97@gmail.com");
-
-                IWebElement passwordInput = browser.FindElement(By.Id("Password"));
-                passwordInput.SendKeys("!234qwer" + Keys.Enter);
-
-                Console.ReadLine();
-            }
-
-
+            var query = petOwners.SelectMany(petOwner => petOwner.Pets, (owner, pet) => new { petOwner = owner, pet = pet })
+                .Select(ownerAndPet => new { owner = ownerAndPet.petOwner.Name, pet=ownerAndPet.pet })
+                .ToList();
         }
     }
 }
